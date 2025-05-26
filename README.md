@@ -1,4 +1,5 @@
-# 🛒 Price Wise Shopkeeper Aid
+# 🛒 Retail Shopkeepers: Price Tracker Tool
+
 
 **An AI-powered tool to help informal shopkeepers make smart pricing, inventory, and sales decisions.**
 
