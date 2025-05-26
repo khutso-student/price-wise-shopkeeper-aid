@@ -1,4 +1,3 @@
-
 import React, { useEffect, useState } from 'react';
 import {
   Card,
@@ -10,6 +9,7 @@ import {
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Star, Phone, MapPin, ExternalLink } from "lucide-react";
+import { Link } from "react-router-dom";
 import { mockSuppliers } from '@/lib/mockData';
 
 interface Supplier {
@@ -45,8 +45,11 @@ const TopSuppliers = () => {
             <CardTitle className="text-lg font-semibold text-gray-900">Top Suppliers</CardTitle>
             <CardDescription>Your most reliable partners</CardDescription>
           </div>
-          <Button variant="outline" size="sm" className="border-orange-200 text-orange-600 hover:bg-orange-50">
-            View All
+          <Button variant="outline" size="sm" className="border-orange-200 text-orange-600 hover:bg-orange-50" asChild>
+            <Link to="/suppliers">
+              View All
+              <ExternalLink className="h-4 w-4 ml-2" />
+            </Link>
           </Button>
         </div>
       </CardHeader>
