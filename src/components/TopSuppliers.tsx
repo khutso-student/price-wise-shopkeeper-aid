@@ -1,42 +1,51 @@
+// src/components/TopSuppliers.tsx
 
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import React, { useEffect, useState } from 'react';
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Star, Phone, MapPin, ExternalLink } from "lucide-react";
+import { supabase } from '@/lib/supabaseClient';
+
+interface Supplier {
+  id: string;
+  name: string;
+  rating: number;
+  products: number;
+  location: string;
+  phone: string;
+  status: string;
+  last_order: string;
+}
 
 const TopSuppliers = () => {
-  const suppliers = [
-    {
-      id: 1,
-      name: "Green Valley Suppliers",
-      rating: 4.8,
-      products: 45,
-      location: "Market District",
-      phone: "+91 98765 43210",
-      status: "Active",
-      lastOrder: "2 days ago"
-    },
-    {
-      id: 2,
-      name: "City Foods Ltd",
-      rating: 4.6,
-      products: 32,
-      location: "Central Hub",
-      phone: "+91 87654 32109",
-      status: "Active",
-      lastOrder: "1 week ago"
-    },
-    {
-      id: 3,
-      name: "Sweet Deals Co.",
-      rating: 4.4,
-      products: 28,
-      location: "Trade Center",
-      phone: "+91 76543 21098",
-      status: "Active",
-      lastOrder: "3 days ago"
+  const [suppliers, setSuppliers] = useState<Supplier[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    async function fetchSuppliers() {
+      const { data, error } = await supabase
+        .from('suppliers')
+        .select('*');
+
+      if (error) {
+        console.error('Error fetching suppliers:', error);
+      } else {
+        setSuppliers(data as Supplier[] || []);
+      }
+      setLoading(false);
     }
-  ];
+
+    fetchSuppliers();
+  }, []);
+
+  if (loading) return <div>Loading suppliers...</div>;
 
   return (
     <Card className="border-orange-200">
@@ -68,14 +77,14 @@ const TopSuppliers = () => {
                     </Badge>
                   </div>
                 </div>
-                <Badge 
-                  variant="default" 
+                <Badge
+                  variant="default"
                   className="bg-green-100 text-green-700 hover:bg-green-100"
                 >
                   {supplier.status}
                 </Badge>
               </div>
-              
+
               <div className="space-y-2 text-sm text-gray-600">
                 <div className="flex items-center">
                   <MapPin className="h-4 w-4 mr-2" />
@@ -86,9 +95,9 @@ const TopSuppliers = () => {
                   {supplier.phone}
                 </div>
               </div>
-              
+
               <div className="flex justify-between items-center mt-3 pt-3 border-t border-gray-200">
-                <span className="text-xs text-gray-500">Last order: {supplier.lastOrder}</span>
+                <span className="text-xs text-gray-500">Last order: {supplier.last_order}</span>
                 <Button variant="ghost" size="sm" className="text-orange-600 hover:text-orange-700">
                   Contact
                   <ExternalLink className="h-3 w-3 ml-1" />
