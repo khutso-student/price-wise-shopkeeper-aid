@@ -1,4 +1,3 @@
-// src/components/TopSuppliers.tsx
 
 import React, { useEffect, useState } from 'react';
 import {
@@ -11,7 +10,7 @@ import {
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Star, Phone, MapPin, ExternalLink } from "lucide-react";
-import { supabase } from '@/lib/supabaseClient';
+import { mockSuppliers } from '@/lib/mockData';
 
 interface Supplier {
   id: string;
@@ -29,20 +28,11 @@ const TopSuppliers = () => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    async function fetchSuppliers() {
-      const { data, error } = await supabase
-        .from('suppliers')
-        .select('*');
-
-      if (error) {
-        console.error('Error fetching suppliers:', error);
-      } else {
-        setSuppliers(data as Supplier[] || []);
-      }
+    // Simulate API call with mock data
+    setTimeout(() => {
+      setSuppliers(mockSuppliers);
       setLoading(false);
-    }
-
-    fetchSuppliers();
+    }, 500);
   }, []);
 
   if (loading) return <div>Loading suppliers...</div>;

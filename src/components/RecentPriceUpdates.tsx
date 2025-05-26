@@ -1,19 +1,19 @@
+
 import { useEffect, useState } from "react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { TrendingUp, TrendingDown, MoreHorizontal, ExternalLink } from "lucide-react";
-import { getRecentPrices } from "@/lib/api";
+import { mockRecentPrices } from "@/lib/mockData";
 
 const RecentPriceUpdates = () => {
   const [priceUpdates, setPriceUpdates] = useState<any[]>([]);
 
   useEffect(() => {
-    getRecentPrices()
-      .then(setPriceUpdates)
-      .catch((error) => {
-        console.error("Failed to load price updates:", error);
-      });
+    // Simulate API call with mock data
+    setTimeout(() => {
+      setPriceUpdates(mockRecentPrices);
+    }, 300);
   }, []);
 
   const formatCurrency = (amount: number) => {
