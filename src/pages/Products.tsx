@@ -5,11 +5,47 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
 import { Package, Search, Plus, Edit, Trash2, TrendingUp, TrendingDown } from "lucide-react";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from "@/components/ui/alert-dialog";
+import { useToast } from "@/hooks/use-toast";
+import ProductForm from "@/components/ProductForm";
+
+interface Product {
+  id: number;
+  name: string;
+  category: string;
+  currentPrice: number;
+  lastPrice: number;
+  suppliers: number;
+  status: string;
+  trend: string;
+  change: number;
+}
 
 const Products = () => {
   const [searchQuery, setSearchQuery] = useState("");
+  const [isAddDialogOpen, setIsAddDialogOpen] = useState(false);
+  const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
+  const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
+  const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
+  const { toast } = useToast();
 
-  const products = [
+  const [products, setProducts] = useState<Product[]>([
     {
       id: 1,
       name: "Rice (25kg bag)",
@@ -43,11 +79,80 @@ const Products = () => {
       trend: "up",
       change: 2.9
     }
-  ];
+  ]);
 
   const filteredProducts = products.filter(product =>
     product.name.toLowerCase().includes(searchQuery.toLowerCase())
   );
+
+  const handleAddProduct = (data: any) => {
+    const newProduct: Product = {
+      id: Date.now(),
+      name: data.name,
+      category: data.category,
+      currentPrice: data.currentPrice,
+      lastPrice: data.currentPrice,
+      suppliers: data.suppliers,
+      status: data.status,
+      trend: "stable",
+      change: 0
+    };
+    
+    setProducts([...products, newProduct]);
+    setIsAddDialogOpen(false);
+    toast({
+      title: "Product Added",
+      description: `${data.name} has been added successfully.`,
+    });
+  };
+
+  const handleEditProduct = (data: any) => {
+    if (!selectedProduct) return;
+    
+    const updatedProducts = products.map(product =>
+      product.id === selectedProduct.id
+        ? {
+            ...product,
+            name: data.name,
+            category: data.category,
+            currentPrice: data.currentPrice,
+            suppliers: data.suppliers,
+            status: data.status,
+          }
+        : product
+    );
+    
+    setProducts(updatedProducts);
+    setIsEditDialogOpen(false);
+    setSelectedProduct(null);
+    toast({
+      title: "Product Updated",
+      description: `${data.name} has been updated successfully.`,
+    });
+  };
+
+  const handleDeleteProduct = () => {
+    if (!selectedProduct) return;
+    
+    const updatedProducts = products.filter(product => product.id !== selectedProduct.id);
+    setProducts(updatedProducts);
+    setIsDeleteDialogOpen(false);
+    setSelectedProduct(null);
+    toast({
+      title: "Product Deleted",
+      description: `${selectedProduct.name} has been deleted successfully.`,
+    });
+  };
+
+  const openEditDialog = (product: Product) => {
+    setSelectedProduct(product);
+    setIsEditDialogOpen(true);
+  };
+
+  const openDeleteDialog = (product: Product) => {
+    setSelectedProduct(product);
+    setIsDeleteDialogOpen(true);
+  };
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-orange-50 to-amber-50">
@@ -68,7 +173,10 @@ const Products = () => {
                 className="pl-10 border-orange-200 focus:border-orange-400"
               />
             </div>
-            <Button className="bg-orange-600 hover:bg-orange-700 text-white">
+            <Button 
+              className="bg-orange-600 hover:bg-orange-700 text-white"
+              onClick={() => setIsAddDialogOpen(true)}
+            >
               <Plus className="h-4 w-4 mr-2" />
               Add Product
             </Button>
@@ -87,7 +195,9 @@ const Products = () => {
                   <Badge variant="outline" className={
                     product.status === "In Stock" 
                       ? "bg-green-100 text-green-700" 
-                      : "bg-yellow-100 text-yellow-700"
+                      : product.status === "Low Stock"
+                      ? "bg-yellow-100 text-yellow-700"
+                      : "bg-red-100 text-red-700"
                   }>
                     {product.status}
                   </Badge>
@@ -122,11 +232,21 @@ const Products = () => {
                   </div>
                   
                   <div className="flex space-x-2 pt-3">
-                    <Button variant="outline" size="sm" className="flex-1">
+                    <Button 
+                      variant="outline" 
+                      size="sm" 
+                      className="flex-1"
+                      onClick={() => openEditDialog(product)}
+                    >
                       <Edit className="h-4 w-4 mr-1" />
                       Edit
                     </Button>
-                    <Button variant="outline" size="sm" className="text-red-600 hover:text-red-700">
+                    <Button 
+                      variant="outline" 
+                      size="sm" 
+                      className="text-red-600 hover:text-red-700"
+                      onClick={() => openDeleteDialog(product)}
+                    >
                       <Trash2 className="h-4 w-4" />
                     </Button>
                   </div>
@@ -135,6 +255,70 @@ const Products = () => {
             </Card>
           ))}
         </div>
+
+        {/* Add Product Dialog */}
+        <Dialog open={isAddDialogOpen} onOpenChange={setIsAddDialogOpen}>
+          <DialogContent className="sm:max-w-md">
+            <DialogHeader>
+              <DialogTitle>Add New Product</DialogTitle>
+              <DialogDescription>
+                Fill in the details to add a new product to your catalog.
+              </DialogDescription>
+            </DialogHeader>
+            <ProductForm
+              onSubmit={handleAddProduct}
+              onCancel={() => setIsAddDialogOpen(false)}
+            />
+          </DialogContent>
+        </Dialog>
+
+        {/* Edit Product Dialog */}
+        <Dialog open={isEditDialogOpen} onOpenChange={setIsEditDialogOpen}>
+          <DialogContent className="sm:max-w-md">
+            <DialogHeader>
+              <DialogTitle>Edit Product</DialogTitle>
+              <DialogDescription>
+                Update the product details below.
+              </DialogDescription>
+            </DialogHeader>
+            {selectedProduct && (
+              <ProductForm
+                product={selectedProduct}
+                onSubmit={handleEditProduct}
+                onCancel={() => {
+                  setIsEditDialogOpen(false);
+                  setSelectedProduct(null);
+                }}
+              />
+            )}
+          </DialogContent>
+        </Dialog>
+
+        {/* Delete Confirmation Dialog */}
+        <AlertDialog open={isDeleteDialogOpen} onOpenChange={setIsDeleteDialogOpen}>
+          <AlertDialogContent>
+            <AlertDialogHeader>
+              <AlertDialogTitle>Are you sure?</AlertDialogTitle>
+              <AlertDialogDescription>
+                This action cannot be undone. This will permanently delete the product "{selectedProduct?.name}" from your catalog.
+              </AlertDialogDescription>
+            </AlertDialogHeader>
+            <AlertDialogFooter>
+              <AlertDialogCancel onClick={() => {
+                setIsDeleteDialogOpen(false);
+                setSelectedProduct(null);
+              }}>
+                Cancel
+              </AlertDialogCancel>
+              <AlertDialogAction 
+                onClick={handleDeleteProduct}
+                className="bg-red-600 hover:bg-red-700"
+              >
+                Delete
+              </AlertDialogAction>
+            </AlertDialogFooter>
+          </AlertDialogContent>
+        </AlertDialog>
       </div>
     </div>
   );
