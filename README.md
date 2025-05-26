@@ -1,73 +1,63 @@
-# Welcome to your Lovable project
+# 🛒 Price Wise Shopkeeper Aid
 
-## Project info
+**An AI-powered tool to help informal shopkeepers make smart pricing, inventory, and sales decisions.**
 
-**URL**: https://lovable.dev/projects/ba0cd618-d464-47c8-9db2-9db633072a55
+---
 
-## How can I edit this code?
+## 💡 Project Overview
 
-There are several ways of editing your application.
+Price Wise Shopkeeper Aid is built to support small-scale and informal retailers — the "hustlers" of our local communities. Many of them struggle with stock management, price setting, and understanding their own sales trends. This tool provides a simple, intelligent solution to help them run their businesses more efficiently.
 
-**Use Lovable**
+---
 
-Simply visit the [Lovable Project](https://lovable.dev/projects/ba0cd618-d464-47c8-9db2-9db633072a55) and start prompting.
+## 🎯 Goals
 
-Changes made via Lovable will be committed automatically to this repo.
+- Help shopkeepers avoid underpricing or overpricing
+- Prevent stockouts and excess inventory
+- Empower users with clear, simple sales insights
+- Support economic inclusion and digital empowerment
 
-**Use your preferred IDE**
+---
 
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
+## 🧠 Key Features
 
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
+- 📦 **Inventory Tracking**: Know what’s in stock and what’s running low.
+- 💰 **Smart Pricing**: AI-assisted price suggestions based on trends and data.
+- 📈 **Sales Analytics**: Identify bestsellers and trends with clear visuals.
+- 🧑‍💻 **User-Friendly Interface**: Designed for ease of use, even with low digital literacy.
 
-Follow these steps:
+---
 
-```sh
-# Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
+## 🔧 Tech Stack
 
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
+- **Frontend**: Streamlit  
+- **Backend**: Python  
+- **AI/ML**: Pandas, Scikit-learn (for trend detection and pricing logic)  
+- **Data**: CSV/JSON-based local data handling (or can be upgraded)
 
-# Step 3: Install the necessary dependencies.
-npm i
+---
 
-# Step 4: Start the development server with auto-reloading and an instant preview.
-npm run dev
-```
+## 🌍 SDG Alignment
 
-**Edit a file directly in GitHub**
+This project supports the United Nations Sustainable Development Goals:
 
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
+- **SDG 1 – No Poverty**: Supports micro-enterprise success and income stability  
+- **SDG 8 – Decent Work & Economic Growth**: Promotes inclusive economic participation  
+- **SDG 9 – Innovation & Infrastructure**: Brings digital tools to underserved groups
 
-**Use GitHub Codespaces**
+---
 
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
+## 👥 Target Users
 
-## What technologies are used for this project?
+- Informal shopkeepers and small business owners
+- Street vendors and local market sellers
+- NGOs and development agencies supporting local commerce
 
-This project is built with:
+---
 
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
+## 🚀 Getting Started
 
-## How can I deploy this project?
-
-Simply open [Lovable](https://lovable.dev/projects/ba0cd618-d464-47c8-9db2-9db633072a55) and click on Share -> Publish.
-
-## Can I connect a custom domain to my Lovable project?
-
-Yes, you can!
-
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
-
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/tips-tricks/custom-domain#step-by-step-guide)
+1. **Clone the repo**  
+```bash
+git clone https://github.com/khutso-student/price-wise-shopkeeper-aid.git
+cd price-wise-shopkeeper-aid
