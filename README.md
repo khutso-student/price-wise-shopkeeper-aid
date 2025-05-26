@@ -62,3 +62,8 @@ This project supports the United Nations Sustainable Development Goals:
 ```bash
 git clone https://github.com/khutso-student/price-wise-shopkeeper-aid.git
 cd price-wise-shopkeeper-aid
+
+## Collaborators Details
+1. Monicah Mwanzia kamenemonica22@gmail.com
+2. Kebaabetswe Sennelo ka.sennelo@gmail.com
+3. Khutso Makunyane khutsomakunyane1@gmail.com
